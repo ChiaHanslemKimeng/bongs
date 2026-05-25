@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }} | Bongs{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+    <a href="{% url 'blog:post_list' %}" class="inline-flex items-center text-gray-400 hover:text-brand-accent mb-12 transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"></path></svg>
+        Back to Journal
+    </a>
+
+    <div class="glass-card p-12" data-aos="fade-up">
+        {% if post.image %}
+        <div class="mb-8 -mx-12 -mt-12 overflow-hidden rounded-t-2xl h-64 md:h-96">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-full object-cover">
+        </div>
+        {% endif %}
+        <h1 class="text-4xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight">{{ post.title }}</h1>
+        <div class="flex items-center text-gray-500 mb-12 pb-12 border-b border-white/10">
+            <div class="w-10 h-10 rounded-full bg-brand-muted flex items-center justify-center text-brand-accent font-bold mr-4">
+                {{ post.author.username|make_list|first|upper }}
+            </div>
+            <div>
+                <div class="text-white font-medium">{{ post.author.username }}</div>
+                <div class="text-sm">{{ post.publish|date:"F j, Y" }}</div>
+            </div>
+        </div>
+
+        <div class="prose prose-invert prose-lg max-w-none text-gray-300">
+            {{ post.body|linebreaks }}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Sign Up | Bongs{% endblock %}
+
+{% block content %}
+<div class="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full glass-card p-8 space-y-8">
+        <div>
+            <h2 class="mt-2 text-center text-3xl font-extrabold text-white font-serif">
+                Create an Account
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-400">
+                {% blocktrans %}Already have an account? Then please
+                <a href="{{ login_url }}" class="font-medium text-brand-accent hover:text-yellow-400 transition-colors">sign in</a>.{% endblocktrans %}
+            </p>
+        </div>
+
+        <form class="mt-8 space-y-6" method="POST" action="{% url 'account_signup' %}">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class="bg-red-900/50 border border-red-500 text-red-200 px-4 py-3 rounded-lg relative text-sm" role="alert">
+                    Please correct the errors below.
+                </div>
+            {% endif %}
+            
+            <div class="space-y-4 shadow-sm">
+                {% for field in form %}
+                <div class="relative">
+                    <label for="{{ field.id_for_label }}" class="sr-only">{{ field.label }}</label>
+                    {% if field.widget_type == 'password' %}
+                        <input id="{{ field.id_for_label }}" name="{{ field.html_name }}" type="password" {% if field.field.required %}required{% endif %} class="appearance-none rounded-lg relative block w-full px-3 py-3 pr-12 border border-white/10 bg-brand-muted text-white placeholder-gray-500 focus:outline-none focus:ring-brand-accent focus:border-brand-accent focus:z-10 sm:text-sm" placeholder="{{ field.label }}">
+                        <button type="button" onclick="togglePassword('{{ field.id_for_label }}', 'eye-{{ field.html_name }}')" class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 hover:text-brand-accent transition-colors z-20">
+                            <svg id="eye-{{ field.html_name }}" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </button>
+                    {% else %}
+                        <input id="{{ field.id_for_label }}" name="{{ field.html_name }}" type="{{ field.widget_type }}" {% if field.field.required %}required{% endif %} class="appearance-none rounded-lg relative block w-full px-3 py-3 border border-white/10 bg-brand-muted text-white placeholder-gray-500 focus:outline-none focus:ring-brand-accent focus:border-brand-accent focus:z-10 sm:text-sm" placeholder="{{ field.label }}">
+                    {% endif %}
+                    {% if field.errors %}
+                        <p class="text-red-400 text-xs mt-1">{{ field.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+
+            <div>
+                <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-brand-dark bg-brand-accent hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-accent transition-colors">
+                    Sign Up
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function togglePassword(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.innerHTML = `
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>`;
+    } else {
+        input.type = 'password';
+        icon.innerHTML = `
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>`;
+    }
+}
+</script>
+{% endblock %}

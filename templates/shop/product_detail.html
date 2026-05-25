@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} | Bongs{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    
+    <!-- Breadcrumbs -->
+    <nav class="flex text-sm text-gray-400 mb-8" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a href="{% url 'core:home' %}" class="hover:text-brand-accent transition-colors">Home</a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg class="w-4 h-4 mx-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                    <a href="{% url 'shop:product_list_by_category' product.category.slug %}" class="hover:text-brand-accent transition-colors">{{ product.category.name }}</a>
+                </div>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="w-4 h-4 mx-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                    <span class="text-white">{{ product.name }}</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+        
+        <!-- Product Images -->
+        <div>
+            <div class="glass-card overflow-hidden mb-4 relative aspect-w-4 aspect-h-5">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-cover w-full h-full cursor-zoom-in" id="mainImage">
+                {% else %}
+                    <div class="w-full h-full bg-brand-muted flex items-center justify-center">
+                        <span class="text-gray-600">No Image</span>
+                    </div>
+                {% endif %}
+            </div>
+            
+            {% if product.images.all %}
+            <div class="grid grid-cols-4 gap-4">
+                <div class="glass-card cursor-pointer border border-brand-accent">
+                    <img src="{{ product.image.url }}" class="object-cover w-full h-24" onclick="document.getElementById('mainImage').src=this.src">
+                </div>
+                {% for img in product.images.all %}
+                <div class="glass-card cursor-pointer border border-transparent hover:border-brand-accent/50">
+                    <img src="{{ img.image.url }}" class="object-cover w-full h-24" onclick="document.getElementById('mainImage').src=this.src">
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Product Info -->
+        <div>
+            <h1 class="text-4xl font-serif font-bold text-white mb-2">{{ product.name }}</h1>
+            
+            <div class="flex items-center mb-6">
+                <div class="flex text-brand-accent">
+                    <!-- Star icons placeholder -->
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    <!-- Repeat 4x -->
+                </div>
+                <span class="text-gray-400 text-sm ml-2">(12 Reviews)</span>
+            </div>
+
+            <p class="text-3xl font-bold text-brand-accent mb-6">${{ product.price }}</p>
+            
+            <div class="prose prose-invert text-gray-400 mb-8">
+                {{ product.description|linebreaks }}
+            </div>
+
+            <form class="space-y-6" method="POST" action="{% url 'orders:cart_add' product.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="product_id" value="{{ product.id }}">
+                
+                <div>
+                    <label for="quantity" class="block text-sm font-medium text-gray-300 mb-2">Quantity</label>
+                    <select id="quantity" name="quantity" class="bg-brand-muted border border-white/10 text-white rounded-lg focus:ring-brand-accent focus:border-brand-accent block w-32 p-2.5">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+
+                <div class="flex space-x-4">
+                    <button type="submit" class="flex-1 btn-primary py-4 text-lg">
+                        Add to Cart
+                    </button>
+                    <button type="button" class="btn-outline px-6 py-4 flex items-center justify-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    </button>
+                </div>
+            </form>
+            
+            <div class="mt-8 border-t border-white/10 pt-8 space-y-4 text-sm text-gray-400">
+                <p><strong>Availability:</strong> <span class="{% if product.stock > 0 %}text-green-400{% else %}text-red-400{% endif %}">{% if product.stock > 0 %}In Stock{% else %}Out of Stock{% endif %}</span></p>
+                <p><strong>Category:</strong> <a href="{% url 'shop:product_list_by_category' product.category.slug %}" class="text-brand-accent hover:underline">{{ product.category.name }}</a></p>
+                <p><strong>Shipping:</strong> Free shipping on orders over $150</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    {% if related_products %}
+    <div class="mt-24 border-t border-white/10 pt-16">
+        <h2 class="text-3xl font-serif font-bold text-white mb-8 text-center">You May Also Like</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for rel_product in related_products %}
+            <div class="glass-card group cursor-pointer">
+                <a href="{% url 'shop:product_detail' rel_product.slug %}">
+                    <div class="relative aspect-w-1 aspect-h-1 overflow-hidden">
+                        {% if rel_product.image %}
+                            <img src="{{ rel_product.image.url }}" alt="{{ rel_product.name }}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
+                        {% else %}
+                            <div class="w-full h-full bg-brand-muted flex items-center justify-center">
+                                <span class="text-gray-600">No Image</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="p-6 text-center">
+                        <h3 class="text-lg font-semibold text-white mb-2">{{ rel_product.name }}</h3>
+                        <p class="text-brand-accent font-medium">${{ rel_product.price }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

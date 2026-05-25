@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bongs | Luxury Glass Bongs{% endblock %}</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- AOS Library CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Tailwind CSS (CDN for development) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-dark': '#0a0a0a',
+                        'brand-light': '#ffffff',
+                        'brand-accent': '#d4af37',
+                        'brand-muted': '#1a1a1a',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    backgroundImage: {
+                        'glass-gradient': 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)',
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom Styles -->
+    <style type="text/tailwindcss">
+        @layer base {
+            body { @apply bg-brand-dark text-white font-sans antialiased; }
+            h1, h2, h3, h4, h5, h6 { @apply font-serif tracking-wide; }
+        }
+        @layer components {
+            .glass { @apply bg-glass-gradient backdrop-blur-md border border-white/10 shadow-xl; }
+            .glass-card { @apply glass rounded-2xl overflow-hidden transition-all duration-300 hover:border-brand-accent/50 hover:shadow-brand-accent/20; }
+            .btn-primary { @apply px-6 py-3 bg-brand-accent text-brand-dark font-semibold rounded-full transition-transform hover:scale-105 active:scale-95; }
+            .btn-outline { @apply px-6 py-3 border border-brand-accent text-brand-accent font-semibold rounded-full transition-colors hover:bg-brand-accent hover:text-brand-dark; }
+        }
+    </style>
+
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="min-h-screen flex flex-col" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    
+    <!-- Navbar -->
+    <header class="glass fixed w-full z-50 top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="/" class="text-3xl font-serif font-bold text-brand-accent tracking-widest">BONGS.</a>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    {% url 'core:home' as url_home %}
+                    <a href="{{ url_home }}" class="{% if request.path == url_home %}text-brand-accent border-b-2 border-brand-accent{% else %}text-gray-300 hover:text-white{% endif %} px-3 py-2 text-sm font-medium transition-colors">Home</a>
+                    
+                    {% url 'shop:product_list' as url_shop %}
+                    <a href="{{ url_shop }}" class="{% if '/shop/' in request.path %}text-brand-accent border-b-2 border-brand-accent{% else %}text-gray-300 hover:text-white{% endif %} px-3 py-2 text-sm font-medium transition-colors">Shop</a>
+                    
+                    {% url 'core:about' as url_about %}
+                    <a href="{{ url_about }}" class="{% if request.path == url_about %}text-brand-accent border-b-2 border-brand-accent{% else %}text-gray-300 hover:text-white{% endif %} px-3 py-2 text-sm font-medium transition-colors">About</a>
+                    
+                    {% url 'blog:post_list' as url_blog %}
+                    <a href="{{ url_blog }}" class="{% if '/blog/' in request.path %}text-brand-accent border-b-2 border-brand-accent{% else %}text-gray-300 hover:text-white{% endif %} px-3 py-2 text-sm font-medium transition-colors">Journal</a>
+
+                    {% url 'core:reviews' as url_reviews %}
+                    <a href="{{ url_reviews }}" class="{% if request.path == url_reviews %}text-brand-accent border-b-2 border-brand-accent{% else %}text-gray-300 hover:text-white{% endif %} px-3 py-2 text-sm font-medium transition-colors">Reviews</a>
+                    
+                    {% url 'core:faq' as url_faq %}
+                    <a href="{{ url_faq }}" class="{% if request.path == url_faq %}text-brand-accent border-b-2 border-brand-accent{% else %}text-gray-300 hover:text-white{% endif %} px-3 py-2 text-sm font-medium transition-colors">FAQ</a>
+                    
+                    {% url 'core:contact' as url_contact %}
+                    <a href="{{ url_contact }}" class="{% if request.path == url_contact %}text-brand-accent border-b-2 border-brand-accent{% else %}text-gray-300 hover:text-white{% endif %} px-3 py-2 text-sm font-medium transition-colors">Contact</a>
+                </nav>
+                <div class="flex items-center space-x-4 md:space-x-6">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'accounts:dashboard' %}" class="text-gray-300 hover:text-brand-accent transition-colors hidden md:block" title="My Profile">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'account_login' %}" class="text-gray-300 hover:text-brand-accent text-sm font-medium transition-colors hidden md:block">Log In</a>
+                    {% endif %}
+                    <a href="{% url 'orders:cart_detail' %}" class="text-gray-300 hover:text-brand-accent transition-colors relative">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                        <span class="absolute -top-2 -right-2 bg-brand-accent text-brand-dark text-xs font-bold px-2 py-0.5 rounded-full">
+                            {% with totlen=cart|length %}
+                                {% if totlen > 0 %}{{ totlen }}{% else %}0{% endif %}
+                            {% endwith %}
+                        </span>
+                    </a>
+                    <!-- Mobile menu button -->
+                    <button type="button" onclick="toggleMobileMenu()" class="md:hidden text-gray-300 hover:text-brand-accent focus:outline-none ml-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path id="mobile-menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-brand-dark border-t border-white/10 shadow-xl max-h-[80vh] overflow-y-auto">
+            <div class="px-4 py-4 space-y-2 flex flex-col">
+                <a href="{% url 'core:home' %}" class="text-gray-300 hover:text-brand-accent hover:bg-white/5 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="{% url 'shop:product_list' %}" class="text-gray-300 hover:text-brand-accent hover:bg-white/5 block px-3 py-2 rounded-md text-base font-medium">Shop</a>
+                <a href="{% url 'core:about' %}" class="text-gray-300 hover:text-brand-accent hover:bg-white/5 block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="{% url 'blog:post_list' %}" class="text-gray-300 hover:text-brand-accent hover:bg-white/5 block px-3 py-2 rounded-md text-base font-medium">Journal</a>
+                <a href="{% url 'core:reviews' %}" class="text-gray-300 hover:text-brand-accent hover:bg-white/5 block px-3 py-2 rounded-md text-base font-medium">Reviews</a>
+                <a href="{% url 'core:faq' %}" class="text-gray-300 hover:text-brand-accent hover:bg-white/5 block px-3 py-2 rounded-md text-base font-medium">FAQ</a>
+                <a href="{% url 'core:contact' %}" class="text-gray-300 hover:text-brand-accent hover:bg-white/5 block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+                <hr class="border-white/10 my-2">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'accounts:dashboard' %}" class="text-gray-300 hover:text-brand-accent hover:bg-white/5 block px-3 py-2 rounded-md text-base font-medium">My Profile</a>
+                {% else %}
+                    <a href="{% url 'account_login' %}" class="text-gray-300 hover:text-brand-accent hover:bg-white/5 block px-3 py-2 rounded-md text-base font-medium">Log In</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-20">
+        {% if messages %}
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+                {% for message in messages %}
+                    <div class="p-4 mb-4 text-sm rounded-lg glass {% if message.tags == 'error' %}border-red-500 text-red-200{% else %}border-brand-accent text-brand-accent{% endif %}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}
+        {% endblock content %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass border-t border-white/10 mt-20 py-12" data-aos="fade-up">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <span class="text-2xl font-serif font-bold text-brand-accent tracking-widest">BONGS.</span>
+                    <p class="mt-4 text-sm text-gray-400">Elevating your smoke with premium glass bongs and modern luxury smoking accessories.</p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-white tracking-wider uppercase">Shop</h3>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="{% url 'shop:product_list' %}" class="text-sm text-gray-400 hover:text-brand-accent">All Products</a></li>
+                        <li><a href="{% url 'shop:product_list' %}" class="text-sm text-gray-400 hover:text-brand-accent">Best Sellers</a></li>
+                        <li><a href="{% url 'shop:product_list' %}" class="text-sm text-gray-400 hover:text-brand-accent">New Arrivals</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-white tracking-wider uppercase">Support</h3>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="{% url 'core:faq' %}" class="text-sm text-gray-400 hover:text-brand-accent">FAQ</a></li>
+                        <li><a href="{% url 'core:faq' %}" class="text-sm text-gray-400 hover:text-brand-accent">Shipping & Returns</a></li>
+                        <li><a href="{% url 'core:contact' %}" class="text-sm text-gray-400 hover:text-brand-accent">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-white tracking-wider uppercase">Newsletter</h3>
+                    <p class="mt-4 text-sm text-gray-400">Subscribe for exclusive offers and news.</p>
+                    <form class="mt-4 flex">
+                        <input type="email" class="w-full px-4 py-2 bg-brand-muted border border-white/10 rounded-l-md focus:outline-none focus:border-brand-accent text-white" placeholder="Email address">
+                        <button type="submit" class="bg-brand-accent text-brand-dark px-4 py-2 rounded-r-md font-semibold hover:bg-yellow-600 transition-colors">Join</button>
+                    </form>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-white/10 pt-8 flex justify-between items-center">
+                <p class="text-sm text-gray-400">&copy; 2026 Bongs Luxury Glass. All rights reserved.</p>
+                <div class="flex space-x-6 text-gray-400">
+                    <a href="#" class="hover:text-brand-accent">Instagram</a>
+                    <a href="#" class="hover:text-brand-accent">Twitter</a>
+                    <a href="#" class="hover:text-brand-accent">Facebook</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- AOS Library Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('mobile-menu-icon');
+            menu.classList.toggle('hidden');
+            if (menu.classList.contains('hidden')) {
+                icon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+            } else {
+                icon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+            }
+        }
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

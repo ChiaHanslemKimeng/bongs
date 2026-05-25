@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {% if category %}{{ category.name }}{% else %}Shop All{% endif %} | Bongs
+{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    
+    <!-- Header -->
+    <div class="text-center mb-16">
+        <h1 class="text-4xl md:text-5xl font-serif font-bold text-white mb-4">
+            {% if category %}{{ category.name }}{% else %}The Collection{% endif %}
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+            {% if category %}
+                {{ category.description }}
+            {% else %}
+                Explore our full range of premium glass bongs, rigs, and smoking accessories designed for the modern lifestyle.
+            {% endif %}
+        </p>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-8">
+        
+        <!-- Sidebar Filters -->
+        <aside class="w-full md:w-1/4">
+            <div class="glass-card p-6 sticky top-24">
+                <h3 class="text-lg font-bold text-white mb-4">Categories</h3>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="{% url 'shop:product_list' %}" class="block py-2 {% if not category %}text-brand-accent font-medium{% else %}text-gray-400 hover:text-white transition-colors{% endif %}">
+                            All Products
+                        </a>
+                    </li>
+                    {% for c in categories %}
+                    <li>
+                        <a href="{% url 'shop:product_list_by_category' c.slug %}" class="block py-2 {% if category.slug == c.slug %}text-brand-accent font-medium{% else %}text-gray-400 hover:text-white transition-colors{% endif %}">
+                            {{ c.name }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                
+                <h3 class="text-lg font-bold text-white mt-8 mb-4">Filter by Price</h3>
+                <form method="GET" class="space-y-4" action="{% if category %}{% url 'shop:product_list_by_category' category.slug %}{% else %}{% url 'shop:product_list' %}{% endif %}">
+                    <div class="flex space-x-2">
+                        <input type="number" name="min_price" value="{{ min_price|default:'' }}" placeholder="Min" class="w-1/2 bg-brand-dark border border-white/10 text-white rounded px-3 py-2 focus:border-brand-accent focus:outline-none">
+                        <input type="number" name="max_price" value="{{ max_price|default:'' }}" placeholder="Max" class="w-1/2 bg-brand-dark border border-white/10 text-white rounded px-3 py-2 focus:border-brand-accent focus:outline-none">
+                    </div>
+                    <button type="submit" class="w-full bg-brand-accent text-brand-dark font-semibold py-2 rounded transition hover:bg-yellow-600">Apply</button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- Product Grid -->
+        <div class="w-full md:w-3/4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for product in products %}
+                <div class="glass-card group cursor-pointer h-full flex flex-col" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                    <a href="{% url 'shop:product_detail' product.slug %}" class="flex-grow flex flex-col">
+                        <div class="relative w-full h-64 overflow-hidden bg-brand-muted">
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
+                            {% else %}
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <span class="text-gray-600">No Image</span>
+                                </div>
+                            {% endif %}
+                            
+                            <!-- HTMX Add to Cart button overlay -->
+                            <div class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                                <button class="btn-primary transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 pointer-events-auto"
+                                        hx-post="#" hx-swap="none">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <h3 class="text-lg font-semibold text-white mb-2">{{ product.name }}</h3>
+                            <div class="flex justify-between items-center">
+                                <span class="text-brand-accent font-medium">${{ product.price }}</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% empty %}
+                <div class="col-span-full py-12 text-center glass-card">
+                    <p class="text-gray-400 text-lg">No products found in this category.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

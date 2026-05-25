@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Order Confirmed | Bongs{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
+    <div class="glass-card p-12">
+        <div class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-10 h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        </div>
+        
+        <h1 class="text-4xl font-serif font-bold text-white mb-4">Thank You!</h1>
+        <p class="text-xl text-brand-accent mb-8">Your order has been successfully placed.</p>
+        
+        <div class="bg-brand-muted border border-white/10 rounded-lg p-6 mb-8 text-left">
+            <p class="text-gray-400 mb-2">Order Number: <strong class="text-white">#{{ order.id }}</strong></p>
+            <p class="text-gray-400 mb-2">Email: <strong class="text-white">{{ order.email }}</strong></p>
+            <p class="text-gray-400">Total Paid: <strong class="text-brand-accent">${{ order.get_total_cost }}</strong></p>
+        </div>
+        
+        <p class="text-gray-400 mb-10">We've sent a confirmation email with your order details and tracking information. Your luxury pieces will be on their way soon.</p>
+        
+        <a href="{% url 'shop:product_list' %}" class="btn-primary">Continue Shopping</a>
+    </div>
+</div>
+{% endblock %}
