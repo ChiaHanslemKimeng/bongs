@@ -30,6 +30,11 @@ def populate():
         {'cat': cats['beakers'], 'name': 'Artisan Fumed Beaker', 'slug': 'artisan-fumed-beaker', 'price': '199.99', 'stock': 8, 'description': 'Hand-blown fumed borosilicate beaker that changes color dynamically when in use. Every piece is unique.', 'is_trending': False, 'is_bestseller': True},
         {'cat': cats['beakers'], 'name': 'Frostline Beaker', 'slug': 'frostline-beaker', 'price': '115.00', 'stock': 25, 'description': '15-inch beaker bong with a frosted glass neck and a black glass base for an exquisite, clean styling.', 'is_trending': True, 'is_bestseller': False},
         
+        # Colored Beakers
+        {'cat': cats['beakers'], 'name': 'Emerald Green Color-Shift Beaker', 'slug': 'emerald-green-beaker', 'price': '165.00', 'stock': 12, 'description': 'Brilliant emerald green beaker that shifts hue under different lighting. A true centerpiece.', 'is_trending': True, 'is_bestseller': False},
+        {'cat': cats['beakers'], 'name': 'Sapphire Blue Iridescent Beaker', 'slug': 'sapphire-blue-beaker', 'price': '155.00', 'stock': 18, 'description': 'Deep sapphire blue glass with a metallic iridescent finish. Highly durable and striking.', 'is_trending': False, 'is_bestseller': True},
+        {'cat': cats['beakers'], 'name': 'Ruby Red UV-Reactive Beaker', 'slug': 'ruby-red-uv-beaker', 'price': '175.00', 'stock': 10, 'description': 'Vibrant ruby red beaker that glows intensely under UV blacklight. Perfect for night sessions.', 'is_trending': True, 'is_bestseller': False},
+        
         # Straight Tubes
         {'cat': cats['tubes'], 'name': 'Honeycomb Straight Tube', 'slug': 'honeycomb-straight-tube', 'price': '119.99', 'stock': 35, 'description': 'Sleek 14-inch straight tube with a double honeycomb percolator for incredible stacking bubbles.', 'is_trending': False, 'is_bestseller': True},
         {'cat': cats['tubes'], 'name': 'Inline Perc Tube', 'slug': 'inline-perc-tube', 'price': '129.99', 'stock': 15, 'description': 'Stemless design straight tube with a gridded inline percolator. Super smooth pull.', 'is_trending': True, 'is_bestseller': False},
@@ -39,6 +44,11 @@ def populate():
         {'cat': cats['tubes'], 'name': 'Slimline Micro Tube', 'slug': 'slimline-micro-tube', 'price': '65.00', 'stock': 20, 'description': 'An elegant 10-inch micro straight tube with a single disc perc. Great for small spaces and quick sessions.', 'is_trending': False, 'is_bestseller': False},
         {'cat': cats['tubes'], 'name': 'Quantum Ring Tube', 'slug': 'quantum-ring-tube', 'price': '125.00', 'stock': 22, 'description': 'A thick 15-inch straight tube with circular ice pinches and a color-matching base ring.', 'is_trending': False, 'is_bestseller': False},
 
+        # Colored Straight Tubes
+        {'cat': cats['tubes'], 'name': 'Neon Pink Straight Tube', 'slug': 'neon-pink-tube', 'price': '135.00', 'stock': 15, 'description': 'Bright neon pink straight tube with matching glass downstem and bowl. Bold and beautiful.', 'is_trending': True, 'is_bestseller': False},
+        {'cat': cats['tubes'], 'name': 'Amber Glow Straight Tube', 'slug': 'amber-glow-tube', 'price': '145.00', 'stock': 20, 'description': 'Warm amber colored glass straight tube that perfectly catches the sunset light.', 'is_trending': False, 'is_bestseller': True},
+        {'cat': cats['tubes'], 'name': 'Cobalt Blue Inline Tube', 'slug': 'cobalt-blue-tube', 'price': '155.00', 'stock': 10, 'description': 'Deep cobalt blue accents on an inline percolator straight tube. Sleek and powerful.', 'is_trending': True, 'is_bestseller': False},
+
         # Dab Rigs
         {'cat': cats['rigs'], 'name': 'Mini Matrix Rig', 'slug': 'mini-matrix-rig', 'price': '95.00', 'stock': 40, 'description': 'Compact 7-inch rig featuring a 360-degree matrix percolator. Perfect flavor saver.', 'is_trending': True, 'is_bestseller': False},
         {'cat': cats['rigs'], 'name': 'Tornado Recycler', 'slug': 'tornado-recycler', 'price': '185.00', 'stock': 10, 'description': 'Mesmerizing recycler rig that continuously spins your water and vapor for the coolest hit possible.', 'is_trending': True, 'is_bestseller': True},
@@ -46,7 +56,12 @@ def populate():
         {'cat': cats['rigs'], 'name': 'Double Recycler Rig', 'slug': 'double-recycler-rig', 'price': '210.00', 'stock': 6, 'description': 'Premium 9-inch recycler that continuously cycles water to filter vapor and eliminate splashback.', 'is_trending': False, 'is_bestseller': True},
         {'cat': cats['rigs'], 'name': 'Klein Recycler', 'slug': 'klein-recycler', 'price': '195.00', 'stock': 9, 'description': 'Beautifully sculpted Klein design that redirects water internally to save space while maximizing action.', 'is_trending': True, 'is_bestseller': False},
         {'cat': cats['rigs'], 'name': 'Micro Matrix Rig', 'slug': 'micro-matrix-rig-new', 'price': '85.00', 'stock': 15, 'description': 'An even more compact 5-inch dab rig with a micro matrix core designed for flavor connoisseurs.', 'is_trending': False, 'is_bestseller': False},
-        {'cat': cats['rigs'], 'name': 'Incubator Rig', 'slug': 'incubator-rig', 'price': '165.00', 'stock': 14, 'description': 'Features an inner sphere chamber that houses the percolator, separating bubbles from the splash guard.', 'is_trending': False, 'is_bestseller': False}
+        {'cat': cats['rigs'], 'name': 'Incubator Rig', 'slug': 'incubator-rig', 'price': '165.00', 'stock': 14, 'description': 'Features an inner sphere chamber that houses the percolator, separating bubbles from the splash guard.', 'is_trending': False, 'is_bestseller': False},
+        
+        # Colored Dab Rigs
+        {'cat': cats['rigs'], 'name': 'Amethyst Purple Mini Rig', 'slug': 'amethyst-purple-rig', 'price': '125.00', 'stock': 25, 'description': 'Rich amethyst purple mini rig with a matching colored banger hanger.', 'is_trending': True, 'is_bestseller': True},
+        {'cat': cats['rigs'], 'name': 'Jade Green Recycler', 'slug': 'jade-green-recycler', 'price': '225.00', 'stock': 8, 'description': 'Elegant jade green glass formed into a flawless, functioning recycler system.', 'is_trending': False, 'is_bestseller': False},
+        {'cat': cats['rigs'], 'name': 'Topaz Yellow Micro Rig', 'slug': 'topaz-yellow-rig', 'price': '115.00', 'stock': 18, 'description': 'Bright topaz yellow micro rig. Small footprint, massive flavor profile.', 'is_trending': True, 'is_bestseller': False}
     ]
 
     from django.core.files import File
@@ -81,6 +96,21 @@ def populate():
         'klein-recycler': 'tornado_recycler.png',
         'micro-matrix-rig-new': 'mini_matrix_rig.png',
         'incubator-rig': 'dab_rig.png',
+        
+        # Colored Beakers (reusing existing for now)
+        'emerald-green-beaker': 'classic_12_beaker.png',
+        'sapphire-blue-beaker': 'beaker_bong.png',
+        'ruby-red-uv-beaker': 'tall_beaker_perc.png',
+        
+        # Colored Tubes
+        'neon-pink-tube': 'straight_tube.png',
+        'amber-glow-tube': 'honeycomb_straight_tube.png',
+        'cobalt-blue-tube': 'inline_perc_tube.png',
+        
+        # Colored Rigs
+        'amethyst-purple-rig': 'dab_rig.png',
+        'jade-green-recycler': 'tornado_recycler.png',
+        'topaz-yellow-rig': 'mini_matrix_rig.png',
     }
 
     images_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'images')

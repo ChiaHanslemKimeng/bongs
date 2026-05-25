@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
 from .models import Category, Product
 
 def product_list(request, category_slug=None):
@@ -25,10 +26,15 @@ def product_list(request, category_slug=None):
         except ValueError:
             pass
             
+    paginator = Paginator(products, 9)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+            
     return render(request, 'shop/product_list.html', {
         'category': category,
         'categories': categories,
-        'products': products,
+        'products': page_obj,
+        'page_obj': page_obj,
         'min_price': min_price,
         'max_price': max_price
     })

@@ -144,56 +144,71 @@
             </a>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {% for product in trending_products %}
-            <div class="glass-card group cursor-pointer flex flex-col h-full">
-                <a href="{% url 'shop:product_detail' product.slug %}" class="flex-grow">
-                    <div class="relative aspect-w-1 aspect-h-1 overflow-hidden">
-                        {% if product.image %}
-                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
-                        {% else %}
-                            <!-- Fallback premium placeholder if no image in DB -->
-                            <img src="{% static 'images/hero4.jpg' %}" alt="Placeholder" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
-                        {% endif %}
-                        <div class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
-                            <span class="btn-primary transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">View Details</span>
-                        </div>
+        <div class="swiper trendingSwiper pb-14 px-2">
+            <div class="swiper-wrapper">
+                {% for product in trending_products %}
+                <div class="swiper-slide h-auto">
+                    <div class="glass-card group cursor-pointer flex flex-col h-full">
+                        <a href="{% url 'shop:product_detail' product.slug %}" class="flex-grow">
+                            <div class="relative aspect-w-1 aspect-h-1 overflow-hidden">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
+                                {% else %}
+                                    <!-- Fallback premium placeholder if no image in DB -->
+                                    <img src="{% static 'images/hero4.jpg' %}" alt="Placeholder" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
+                                {% endif %}
+                                <div class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                                    <span class="btn-primary transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">View Details</span>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-lg font-semibold text-white mb-2">{{ product.name }}</h3>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-brand-accent font-medium">${{ product.price }}</span>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-white mb-2">{{ product.name }}</h3>
-                        <div class="flex justify-between items-center">
-                            <span class="text-brand-accent font-medium">${{ product.price }}</span>
+                </div>
+                {% empty %}
+                <!-- Mock Content if DB is empty -->
+                <div class="swiper-slide h-auto">
+                    <div class="glass-card group cursor-pointer h-full">
+                        <div class="relative aspect-w-1 aspect-h-1 overflow-hidden">
+                            <img src="{% static 'images/hero3.jpg' %}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
                         </div>
+                        <div class="p-6"><h3 class="text-lg text-white mb-2">Classic Beaker</h3><span class="text-brand-accent">$45.00</span></div>
                     </div>
-                </a>
-            </div>
-            {% empty %}
-            <!-- Mock Content if DB is empty -->
-            <div class="glass-card group cursor-pointer">
-                <div class="relative aspect-w-1 aspect-h-1 overflow-hidden">
-                    <img src="{% static 'images/hero3.jpg' %}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
                 </div>
-                <div class="p-6"><h3 class="text-lg text-white mb-2">Classic Beaker</h3><span class="text-brand-accent">$45.00</span></div>
-            </div>
-            <div class="glass-card group cursor-pointer">
-                <div class="relative aspect-w-1 aspect-h-1 overflow-hidden">
-                    <img src="{% static 'images/hero2.jpg' %}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
+                <div class="swiper-slide h-auto">
+                    <div class="glass-card group cursor-pointer h-full">
+                        <div class="relative aspect-w-1 aspect-h-1 overflow-hidden">
+                            <img src="{% static 'images/hero2.jpg' %}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
+                        </div>
+                        <div class="p-6"><h3 class="text-lg text-white mb-2">Inline Percolator</h3><span class="text-brand-accent">$38.00</span></div>
+                    </div>
                 </div>
-                <div class="p-6"><h3 class="text-lg text-white mb-2">Inline Percolator</h3><span class="text-brand-accent">$38.00</span></div>
-            </div>
-            <div class="glass-card group cursor-pointer">
-                <div class="relative aspect-w-1 aspect-h-1 overflow-hidden">
-                    <img src="{% static 'images/hero1.jpg' %}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
+                <div class="swiper-slide h-auto">
+                    <div class="glass-card group cursor-pointer h-full">
+                        <div class="relative aspect-w-1 aspect-h-1 overflow-hidden">
+                            <img src="{% static 'images/hero1.jpg' %}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
+                        </div>
+                        <div class="p-6"><h3 class="text-lg text-white mb-2">Matrix Bubbler</h3><span class="text-brand-accent">$32.00</span></div>
+                    </div>
                 </div>
-                <div class="p-6"><h3 class="text-lg text-white mb-2">Matrix Bubbler</h3><span class="text-brand-accent">$32.00</span></div>
-            </div>
-            <div class="glass-card group cursor-pointer">
-                <div class="relative aspect-w-1 aspect-h-1 overflow-hidden">
-                    <img src="{% static 'images/cat1.jpg' %}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
+                <div class="swiper-slide h-auto">
+                    <div class="glass-card group cursor-pointer h-full">
+                        <div class="relative aspect-w-1 aspect-h-1 overflow-hidden">
+                            <img src="{% static 'images/cat1.jpg' %}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
+                        </div>
+                        <div class="p-6"><h3 class="text-lg text-white mb-2">Honeycomb Rig</h3><span class="text-brand-accent">$120.00</span></div>
+                    </div>
                 </div>
-                <div class="p-6"><h3 class="text-lg text-white mb-2">Honeycomb Rig</h3><span class="text-brand-accent">$120.00</span></div>
+                {% endfor %}
             </div>
-            {% endfor %}
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev !text-brand-accent after:!text-brand-accent"></div>
+            <div class="swiper-button-next !text-brand-accent after:!text-brand-accent"></div>
         </div>
     </div>
 </section>
@@ -212,39 +227,46 @@
             </a>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {% for product in bestsellers %}
-            <div class="glass-card group cursor-pointer flex flex-col h-full relative overflow-hidden">
-                <!-- Premium Bestseller Badge -->
-                <div class="absolute top-4 left-4 z-10 bg-brand-accent text-brand-dark text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-lg shadow-brand-accent/20">
-                    Bestseller
+        <div class="swiper bestsellersSwiper pb-14 px-2">
+            <div class="swiper-wrapper">
+                {% for product in bestsellers %}
+                <div class="swiper-slide h-auto">
+                    <div class="glass-card group cursor-pointer flex flex-col h-full relative overflow-hidden">
+                        <!-- Premium Bestseller Badge -->
+                        <div class="absolute top-4 left-4 z-10 bg-brand-accent text-brand-dark text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-lg shadow-brand-accent/20">
+                            Bestseller
+                        </div>
+                        
+                        <a href="{% url 'shop:product_detail' product.slug %}" class="flex-grow flex flex-col">
+                            <div class="relative h-72 overflow-hidden bg-brand-muted">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
+                                {% else %}
+                                    <img src="{% static 'images/hero4.jpg' %}" alt="Placeholder" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
+                                {% endif %}
+                                <div class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                                    <span class="btn-primary transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">View Masterpiece</span>
+                                </div>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col justify-between">
+                                <div>
+                                    <span class="text-xs text-gray-500 uppercase tracking-widest">{{ product.category.name }}</span>
+                                    <h3 class="text-xl font-bold text-white mt-1 mb-2">{{ product.name }}</h3>
+                                    <p class="text-gray-400 text-sm font-light line-clamp-2 mb-4">{{ product.description }}</p>
+                                </div>
+                                <div class="flex justify-between items-center pt-4 border-t border-white/5">
+                                    <span class="text-brand-accent font-serif text-lg font-bold">${{ product.price }}</span>
+                                    <span class="text-xs text-gray-400">Available: {{ product.stock }} in stock</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                
-                <a href="{% url 'shop:product_detail' product.slug %}" class="flex-grow flex flex-col">
-                    <div class="relative h-72 overflow-hidden bg-brand-muted">
-                        {% if product.image %}
-                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
-                        {% else %}
-                            <img src="{% static 'images/hero4.jpg' %}" alt="Placeholder" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
-                        {% endif %}
-                        <div class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
-                            <span class="btn-primary transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">View Masterpiece</span>
-                        </div>
-                    </div>
-                    <div class="p-6 flex-grow flex flex-col justify-between">
-                        <div>
-                            <span class="text-xs text-gray-500 uppercase tracking-widest">{{ product.category.name }}</span>
-                            <h3 class="text-xl font-bold text-white mt-1 mb-2">{{ product.name }}</h3>
-                            <p class="text-gray-400 text-sm font-light line-clamp-2 mb-4">{{ product.description }}</p>
-                        </div>
-                        <div class="flex justify-between items-center pt-4 border-t border-white/5">
-                            <span class="text-brand-accent font-serif text-lg font-bold">${{ product.price }}</span>
-                            <span class="text-xs text-gray-400">Available: {{ product.stock }} in stock</span>
-                        </div>
-                    </div>
-                </a>
+                {% endfor %}
             </div>
-            {% endfor %}
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev !text-brand-accent after:!text-brand-accent"></div>
+            <div class="swiper-button-next !text-brand-accent after:!text-brand-accent"></div>
         </div>
     </div>
 </section>
@@ -507,8 +529,34 @@
         autoplay: { delay: 4500, disableOnInteraction: false },
         slidesPerView: 1,
         spaceBetween: 24,
-        pagination: { el: '.swiper-pagination', clickable: true },
-        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+        pagination: { el: '.reviewsSwiper .swiper-pagination', clickable: true },
+        navigation: { nextEl: '.reviewsSwiper .swiper-button-next', prevEl: '.reviewsSwiper .swiper-button-prev' },
+        breakpoints: {
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+        },
+    });
+
+    const trendingSwiper = new Swiper('.trendingSwiper', {
+        loop: true,
+        autoplay: { delay: 3500, disableOnInteraction: false },
+        slidesPerView: 1,
+        spaceBetween: 24,
+        pagination: { el: '.trendingSwiper .swiper-pagination', clickable: true },
+        navigation: { nextEl: '.trendingSwiper .swiper-button-next', prevEl: '.trendingSwiper .swiper-button-prev' },
+        breakpoints: {
+            640: { slidesPerView: 2 },
+            1024: { slidesPerView: 4 },
+        },
+    });
+
+    const bestsellersSwiper = new Swiper('.bestsellersSwiper', {
+        loop: true,
+        autoplay: { delay: 4000, disableOnInteraction: false },
+        slidesPerView: 1,
+        spaceBetween: 24,
+        pagination: { el: '.bestsellersSwiper .swiper-pagination', clickable: true },
+        navigation: { nextEl: '.bestsellersSwiper .swiper-button-next', prevEl: '.bestsellersSwiper .swiper-button-prev' },
         breakpoints: {
             768: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
