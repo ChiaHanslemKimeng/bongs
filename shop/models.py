@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 
 class Category(models.Model):
+    parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, blank=True, null=True)
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     description = models.TextField(blank=True)
@@ -12,10 +13,15 @@ class Category(models.Model):
         verbose_name_plural = 'categories'
 
     def __str__(self):
-        return self.name
+        full_path = [self.name]
+        k = self.parent
+        while k is not None:
+            full_path.append(k.name)
+            k = k.parent
+        return ' > '.join(full_path[::-1])
 
 class Product(models.Model):
-    category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
+    categories = models.ManyToManyField(Category, related_name='products', blank=True)
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True)
@@ -26,9 +32,25 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    # Added fields for trending/bestsellers
+    # Added fields for trending
     is_trending = models.BooleanField(default=False)
-    is_bestseller = models.BooleanField(default=False)
+
+    # Added fields for filter pills
+    is_deal = models.BooleanField(default=False)
+    is_american = models.BooleanField(default=False)
+    is_artist_piece = models.BooleanField(default=False)
+    is_auction = models.BooleanField(default=False)
+    is_new_drop = models.BooleanField(default=False)
+
+    # Added fields for detailed specs
+    artists = models.CharField(max_length=200, blank=True, null=True)
+    model_name = models.CharField(max_length=100, blank=True, null=True)
+    condition = models.CharField(max_length=50, blank=True, null=True)
+    color = models.CharField(max_length=100, blank=True, null=True)
+    color_type = models.CharField(max_length=100, blank=True, null=True)
+    origin = models.CharField(max_length=100, blank=True, null=True)
+    joint = models.CharField(max_length=50, blank=True, null=True)
+    year_made = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
         ordering = ['name']

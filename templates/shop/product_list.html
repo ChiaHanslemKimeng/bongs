@@ -7,134 +7,219 @@
 {% block content %}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     
-    <!-- Header -->
-    <div class="text-center mb-16">
-        <h1 class="text-4xl md:text-5xl font-serif font-bold text-white mb-4">
-            {% if category %}{{ category.name }}{% else %}The Collection{% endif %}
-        </h1>
-        <p class="text-gray-400 max-w-2xl mx-auto">
-            {% if category %}
+    <!-- Category Intro -->
+    {% if category %}
+    <div class="bg-[#112F20] rounded-xl p-6 mb-6">
+        <h1 class="text-3xl font-bold text-white mb-3">{{ category.name }}</h1>
+        <p class="text-gray-300 text-sm leading-relaxed mb-4">
+            {% if category.description %}
                 {{ category.description }}
             {% else %}
-                Explore our full range of premium glass bongs, rigs, and smoking accessories designed for the modern lifestyle.
+                {{ category.name }} are a staple in the smoking community, featuring premium craftsmanship and unique designs. The name comes from the shape and function, tailored for optimal airflow and ease of use. Discover our collection of high-quality glass designed for durability and a smooth experience.
             {% endif %}
         </p>
+        <a href="#" class="text-gray-400 hover:text-white text-sm underline decoration-gray-500">Read more</a>
+    </div>
+    {% endif %}
+
+    <!-- Breadcrumbs -->
+    <div class="flex items-center space-x-2 text-gray-400 text-sm mb-6 font-medium">
+        <a href="/" class="hover:text-white transition">Home</a>
+        {% for breadcrumb in breadcrumbs %}
+            <span>/</span>
+            <a href="{% url 'shop:product_list_by_category' breadcrumb.slug %}" class="{% if forloop.last %}text-gray-200{% else %}hover:text-white transition{% endif %}">{{ breadcrumb.name }}</a>
+        {% endfor %}
     </div>
 
-    <div class="flex flex-col md:flex-row gap-8">
-        
-        <!-- Sidebar Filters -->
-        <aside class="w-full md:w-1/4">
-            <div class="glass-card p-6 sticky top-24">
-                <h3 class="text-lg font-bold text-white mb-4">Categories</h3>
-                <ul class="space-y-2">
-                    <li>
-                        <a href="{% url 'shop:product_list' %}" class="block py-2 {% if not category %}text-brand-accent font-medium{% else %}text-gray-400 hover:text-white transition-colors{% endif %}">
-                            All Products
-                        </a>
-                    </li>
-                    {% for c in categories %}
-                    <li>
-                        <a href="{% url 'shop:product_list_by_category' c.slug %}" class="block py-2 {% if category.slug == c.slug %}text-brand-accent font-medium{% else %}text-gray-400 hover:text-white transition-colors{% endif %}">
-                            {{ c.name }}
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
-                
-                <h3 class="text-lg font-bold text-white mt-8 mb-4">Filter by Price</h3>
-                <form method="GET" class="space-y-4" action="{% if category %}{% url 'shop:product_list_by_category' category.slug %}{% else %}{% url 'shop:product_list' %}{% endif %}">
-                    <div class="flex space-x-2">
-                        <input type="number" name="min_price" value="{{ min_price|default:'' }}" placeholder="Min" class="w-1/2 bg-brand-dark border border-white/10 text-white rounded px-3 py-2 focus:border-brand-accent focus:outline-none">
-                        <input type="number" name="max_price" value="{{ max_price|default:'' }}" placeholder="Max" class="w-1/2 bg-brand-dark border border-white/10 text-white rounded px-3 py-2 focus:border-brand-accent focus:outline-none">
-                    </div>
-                    <button type="submit" class="w-full bg-brand-accent text-brand-dark font-semibold py-2 rounded transition hover:bg-yellow-600">Apply</button>
-                </form>
-            </div>
-        </aside>
+    <!-- Filters and Sort Form -->
+    <form method="GET" id="filter-form">
+        <!-- Preserve existing search/price filters if any -->
+        {% if request.GET.search %}<input type="hidden" name="search" value="{{ request.GET.search }}">{% endif %}
+        {% if request.GET.min_price %}<input type="hidden" name="min_price" value="{{ request.GET.min_price }}">{% endif %}
+        {% if request.GET.max_price %}<input type="hidden" name="max_price" value="{{ request.GET.max_price }}">{% endif %}
 
+        <!-- Filters Row -->
+        <div class="flex flex-wrap items-center gap-2 mb-6">
+            <div class="flex items-center justify-center px-4 py-1.5 rounded-full border border-gray-700 text-white">
+                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                <span class="bg-[#3B82F6] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center filter-count"></span>
+            </div>
+            
+
+            <label class="cursor-pointer">
+                <input type="checkbox" name="american" value="true" class="hidden filter-checkbox" onchange="this.form.submit()" {% if request.GET.american == 'true' %}checked{% endif %}>
+                <div class="px-4 py-1.5 rounded-full border transition text-sm {% if request.GET.american == 'true' %}bg-white text-brand-dark border-white{% else %}border-gray-700 hover:border-white text-gray-200{% endif %}">American</div>
+            </label>
+            <label class="cursor-pointer">
+                <input type="checkbox" name="artists" value="true" class="hidden filter-checkbox" onchange="this.form.submit()" {% if request.GET.artists == 'true' %}checked{% endif %}>
+                <div class="px-4 py-1.5 rounded-full border transition text-sm {% if request.GET.artists == 'true' %}bg-white text-brand-dark border-white{% else %}border-gray-700 hover:border-white text-gray-200{% endif %}">Artists</div>
+            </label>
+            <label class="cursor-pointer">
+                <input type="checkbox" name="auctions" value="true" class="hidden filter-checkbox" onchange="this.form.submit()" {% if request.GET.auctions == 'true' %}checked{% endif %}>
+                <div class="px-4 py-1.5 rounded-full border transition text-sm {% if request.GET.auctions == 'true' %}bg-white text-brand-dark border-white{% else %}border-gray-700 hover:border-white text-gray-200{% endif %}">Auctions</div>
+            </label>
+            <label class="cursor-pointer">
+                <input type="checkbox" name="new" value="true" class="hidden filter-checkbox" onchange="this.form.submit()" {% if request.GET.new == 'true' %}checked{% endif %}>
+                <div class="px-4 py-1.5 rounded-full border transition text-sm {% if request.GET.new == 'true' %}bg-white text-brand-dark border-white{% else %}border-gray-700 hover:border-white text-gray-200{% endif %}">New</div>
+            </label>
+            <label class="cursor-pointer">
+                <input type="checkbox" name="nfs" value="true" class="hidden filter-checkbox" onchange="this.form.submit()" {% if request.GET.nfs == 'true' %}checked{% endif %}>
+                <div class="px-4 py-1.5 rounded-full border transition text-sm {% if request.GET.nfs == 'true' %}bg-white text-brand-dark border-white{% else %}border-gray-700 hover:border-white text-gray-200{% endif %}">NFS</div>
+            </label>
+        </div>
+
+        <!-- Listings Count and Sort -->
+        <div class="flex justify-between items-center mb-8">
+            <div class="text-white text-sm">
+                <span class="font-bold">{{ total_listings }}</span> <span class="text-gray-400">Listings</span>
+            </div>
+            <div class="relative">
+                <select name="sort" onchange="this.form.submit()" class="appearance-none bg-transparent border border-gray-700 hover:border-white text-white text-sm font-medium rounded-full pl-4 pr-10 py-1.5 focus:outline-none cursor-pointer transition">
+                    <option class="bg-brand-dark" value="recent" {% if sort_by == 'recent' %}selected{% endif %}>Most Recent</option>
+                    <option class="bg-brand-dark" value="relevant" {% if sort_by == 'relevant' %}selected{% endif %}>Most Relevant</option>
+                    <option class="bg-brand-dark" value="price_asc" {% if sort_by == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+                    <option class="bg-brand-dark" value="price_desc" {% if sort_by == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+                    <option class="bg-brand-dark" value="popular" {% if sort_by == 'popular' %}selected{% endif %}>Most Popular</option>
+                    <option class="bg-brand-dark" value="auction" {% if sort_by == 'auction' %}selected{% endif %}>Auction</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.filter-checkbox');
+            const countBadge = document.querySelector('.filter-count');
+            let count = 0;
+            checkboxes.forEach(cb => {
+                if(cb.checked) count++;
+            });
+            countBadge.textContent = count;
+            if(count === 0) {
+                countBadge.style.display = 'none';
+            }
+        });
+    </script>
+
+    <div class="w-full">
         <!-- Product Grid -->
-        <div class="w-full md:w-3/4">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {% for product in products %}
-                <div class="glass-card group cursor-pointer h-full flex flex-col" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
-                    <a href="{% url 'shop:product_detail' product.slug %}" class="flex-grow flex flex-col">
-                        <div class="relative w-full h-64 overflow-hidden bg-brand-muted">
-                            {% if product.image %}
-                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
-                            {% else %}
-                                <div class="w-full h-full flex items-center justify-center">
-                                    <span class="text-gray-600">No Image</span>
-                                </div>
-                            {% endif %}
-                            
-                            <!-- HTMX Add to Cart button overlay -->
-                            <div class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
-                                <button class="btn-primary transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 pointer-events-auto"
-                                        hx-post="#" hx-swap="none">
-                                    Add to Cart
-                                </button>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for product in products %}
+            <div class="glass-card group cursor-pointer h-full flex flex-col" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                <a href="{% url 'shop:product_detail' product.slug %}" class="flex-grow flex flex-col">
+                    <div class="relative w-full h-64 overflow-hidden bg-brand-muted">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
+                        {% else %}
+                            <div class="w-full h-full flex items-center justify-center">
+                                <span class="text-gray-600">No Image</span>
                             </div>
+                        {% endif %}
+                        
+                        <!-- HTMX Add to Cart button overlay -->
+                        <div class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                            <button class="btn-primary transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 pointer-events-auto"
+                                    hx-post="#" hx-swap="none">
+                                Add to Cart
+                            </button>
                         </div>
-                        <div class="p-6 flex-grow flex flex-col justify-between">
-                            <h3 class="text-lg font-semibold text-white mb-2">{{ product.name }}</h3>
-                            <div class="flex justify-between items-center">
-                                <span class="text-brand-accent font-medium">${{ product.price }}</span>
-                            </div>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <h3 class="text-lg font-semibold text-white mb-2">{{ product.name }}</h3>
+                        <div class="flex justify-between items-center">
+                            <span class="text-brand-accent font-medium">${{ product.price }}</span>
                         </div>
-                    </a>
-                </div>
-                {% empty %}
-                <div class="col-span-full py-12 text-center glass-card">
-                    <p class="text-gray-400 text-lg">No products found in this category.</p>
-                </div>
-                {% endfor %}
+                    </div>
+                </a>
             </div>
+            {% empty %}
+            <div class="col-span-full py-12 text-center glass-card">
+                <p class="text-gray-400 text-lg">No products found in this category.</p>
+            </div>
+            {% endfor %}
         </div>
-        
-        <!-- Pagination Controls -->
-        {% if page_obj.has_other_pages %}
-        <div class="w-full md:w-3/4 md:ml-auto mt-12 flex justify-center">
-            <nav class="inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                {% if page_obj.has_previous %}
-                    <a href="?page={{ page_obj.previous_page_number }}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-white/10 bg-brand-dark text-sm font-medium text-gray-400 hover:bg-white/5 hover:text-white">
-                        <span class="sr-only">Previous</span>
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                    </a>
-                {% else %}
-                    <span class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-white/10 bg-brand-muted text-sm font-medium text-gray-600 cursor-not-allowed">
-                        <span class="sr-only">Previous</span>
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                    </span>
-                {% endif %}
-
-                {% for i in page_obj.paginator.page_range %}
-                    {% if page_obj.number == i %}
-                        <span class="relative inline-flex items-center px-4 py-2 border border-brand-accent bg-brand-accent/10 text-sm font-medium text-brand-accent">
-                            {{ i }}
-                        </span>
-                    {% else %}
-                        <a href="?page={{ i }}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}" class="relative inline-flex items-center px-4 py-2 border border-white/10 bg-brand-dark text-sm font-medium text-gray-400 hover:bg-white/5 hover:text-white">
-                            {{ i }}
-                        </a>
-                    {% endif %}
-                {% endfor %}
-
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-white/10 bg-brand-dark text-sm font-medium text-gray-400 hover:bg-white/5 hover:text-white">
-                        <span class="sr-only">Next</span>
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                    </a>
-                {% else %}
-                    <span class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-white/10 bg-brand-muted text-sm font-medium text-gray-600 cursor-not-allowed">
-                        <span class="sr-only">Next</span>
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                    </span>
-                {% endif %}
-            </nav>
-        </div>
-        {% endif %}
-        
     </div>
+    <!-- END grid container -->
+
+    <!-- ✦ Premium Pagination ✦ -->
+    {% if page_obj.has_other_pages %}
+    <div class="mt-16 mb-4 flex flex-col items-center gap-5">
+
+        <!-- Page count label -->
+        <p class="text-gray-500 text-xs tracking-[0.2em] uppercase">
+            Page <span class="text-brand-accent font-bold text-sm">{{ page_obj.number }}</span>
+            of <span class="text-white font-bold text-sm">{{ page_obj.paginator.num_pages }}</span>
+            &nbsp;·&nbsp; {{ page_obj.paginator.count }} total products
+        </p>
+
+        <!-- Button row -->
+        <div class="flex items-center gap-2 flex-wrap justify-center">
+
+            <!-- Prev -->
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}"
+                   class="group flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/10 bg-brand-dark text-gray-400 hover:border-brand-accent hover:text-brand-accent transition-all duration-300">
+                    <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                    <span class="text-sm font-medium">Prev</span>
+                </a>
+            {% else %}
+                <span class="flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/5 bg-brand-muted/20 text-gray-700 cursor-not-allowed select-none">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                    <span class="text-sm font-medium">Prev</span>
+                </span>
+            {% endif %}
+
+            <!-- Page pills -->
+            {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                    <span class="w-10 h-10 flex items-center justify-center rounded-full bg-brand-accent text-brand-dark font-bold text-sm shadow-lg shadow-brand-accent/30 ring-2 ring-brand-accent/40">
+                        {{ i }}
+                    </span>
+                {% elif i == 1 or i == page_obj.paginator.num_pages or i == page_obj.number|add:"-1" or i == page_obj.number|add:"1" %}
+                    <a href="?page={{ i }}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}"
+                       class="w-10 h-10 flex items-center justify-center rounded-full border border-white/10 bg-brand-dark text-gray-400 hover:bg-brand-accent/10 hover:border-brand-accent hover:text-brand-accent transition-all duration-300 text-sm font-medium">
+                        {{ i }}
+                    </a>
+                {% elif i == page_obj.number|add:"-2" or i == page_obj.number|add:"2" %}
+                    <span class="w-6 flex items-center justify-center text-gray-600 text-sm select-none">&hellip;</span>
+                {% endif %}
+            {% endfor %}
+
+            <!-- Next -->
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}"
+                   class="group flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/10 bg-brand-dark text-gray-400 hover:border-brand-accent hover:text-brand-accent transition-all duration-300">
+                    <span class="text-sm font-medium">Next</span>
+                    <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            {% else %}
+                <span class="flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/5 bg-brand-muted/20 text-gray-700 cursor-not-allowed select-none">
+                    <span class="text-sm font-medium">Next</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </span>
+            {% endif %}
+
+        </div>
+
+        <!-- Gold progress bar -->
+        <div class="w-56 h-[3px] bg-white/5 rounded-full overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-brand-accent to-yellow-200 rounded-full transition-all duration-500"
+                 style="width: {% widthratio page_obj.number page_obj.paginator.num_pages 100 %}%"></div>
+        </div>
+
+    </div>
+    {% endif %}
+
 </div>
 {% endblock %}

@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'accounts',
     'shop',
     'orders',
-    'blog',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +71,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'orders.context_processors.cart',
+                'shop.context_processors.shop_categories',
             ],
         },
     },
@@ -138,6 +138,9 @@ ACCOUNT_LOGIN_METHODS = {'username'}
 ACCOUNT_SIGNUP_FIELDS = ['username*', 'email', 'password1*', 'password2*']
 LOGIN_REDIRECT_URL = '/profile/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_FORMS = {
+    'reset_password': 'accounts.forms.CustomResetPasswordForm',
+}
 
 # Crispy Forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -161,3 +164,12 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Email Settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env('EMAIL_HOST', default='smtp.gmail.com')
+EMAIL_PORT = env.int('EMAIL_PORT', default=587)
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
+EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
+ADMIN_EMAIL = env('ADMIN_EMAIL', default='')

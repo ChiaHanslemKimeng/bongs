@@ -26,6 +26,16 @@ class Order(models.Model):
     stripe_id = models.CharField(max_length=250, blank=True)
     coupon = models.ForeignKey(Coupon, related_name='orders', null=True, blank=True, on_delete=models.SET_NULL)
     discount = models.IntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    
+    payment_instructions = models.TextField(blank=True)
+    payment_instructions_sent = models.BooleanField(default=False)
+    
+    PAYMENT_CHOICES = [
+        ('Credit Card', 'Credit Card'),
+        ('PayPal', 'PayPal'),
+        ('Crypto', 'Crypto'),
+    ]
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='Credit Card')
 
     class Meta:
         ordering = ['-created']

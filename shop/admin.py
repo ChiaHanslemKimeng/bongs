@@ -12,11 +12,25 @@ class ProductImageInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug', 'price', 'stock', 'available', 'is_trending', 'is_bestseller', 'created', 'updated']
-    list_filter = ['available', 'created', 'updated', 'is_trending', 'is_bestseller', 'category']
-    list_editable = ['price', 'stock', 'available', 'is_trending', 'is_bestseller']
+    list_display = ['name', 'slug', 'price', 'stock', 'available', 'is_trending', 'created', 'updated']
+    list_filter = ['available', 'created', 'updated', 'is_trending', 'categories']
+    list_editable = ['price', 'stock', 'available', 'is_trending']
     prepopulated_fields = {'slug': ('name',)}
+    filter_horizontal = ('categories',)
     inlines = [ProductImageInline]
+    ordering = ['-created']
+
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('name', 'slug', 'categories', 'image', 'description', 'price')
+        }),
+        ('Inventory & Status', {
+            'fields': ('available', 'stock', 'is_trending', 'is_deal', 'is_american', 'is_artist_piece', 'is_auction', 'is_new_drop')
+        }),
+        ('Product Details', {
+            'fields': ('artists', 'model_name', 'condition', 'color', 'color_type', 'origin', 'joint', 'year_made')
+        }),
+    )
 
 @admin.register(ProductReview)
 class ProductReviewAdmin(admin.ModelAdmin):

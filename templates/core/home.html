@@ -49,21 +49,21 @@
             <div class="grid grid-cols-2 gap-4 h-[600px]">
                 <div class="space-y-4 h-full">
                     <div class="h-[60%] rounded-2xl overflow-hidden glass shadow-2xl relative group">
-                        <img src="{% static 'images/bong_hero.png' %}" alt="Luxury Bong" class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
+                        <img src="{% static 'images/bong_hero.avif' %}" alt="Luxury Bong" class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     </div>
                     <div class="h-[40%] rounded-2xl overflow-hidden glass shadow-2xl relative group">
-                        <img src="{% static 'images/dab_rig.png' %}" alt="Dab Rig" class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
+                        <img src="{% static 'images/dab_rig.avif' %}" alt="Dab Rig" class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     </div>
                 </div>
                 <div class="space-y-4 h-full pt-12">
                     <div class="h-[40%] rounded-2xl overflow-hidden glass shadow-2xl relative group">
-                        <img src="{% static 'images/beaker_bong.png' %}" alt="Beaker Bong" class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
+                        <img src="{% static 'images/beaker_bong.avif' %}" alt="Beaker Bong" class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     </div>
                     <div class="h-[60%] rounded-2xl overflow-hidden glass shadow-2xl relative group">
-                        <img src="{% static 'images/straight_tube.png' %}" alt="Straight Tube" class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
+                        <img src="{% static 'images/straight_tube.avif' %}" alt="Straight Tube" class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <a href="{% url 'shop:product_list_by_category' 'beaker-bongs' %}" class="group relative h-96 rounded-2xl overflow-hidden glass">
-                <img src="{% static 'images/beaker_bong.png' %}" class="absolute inset-0 w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
+                <img src="{% static 'images/Beaker_Bongs.avif' %}" class="absolute inset-0 w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
                 <div class="absolute bottom-0 left-0 p-8">
                     <h3 class="text-2xl font-bold text-white mb-2">Beaker Bongs</h3>
@@ -111,7 +111,7 @@
             </a>
             
             <a href="{% url 'shop:product_list_by_category' 'straight-tubes' %}" class="group relative h-96 rounded-2xl overflow-hidden glass">
-                <img src="{% static 'images/straight_tube.png' %}" class="absolute inset-0 w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
+                <img src="{% static 'images/straight_tubes.avif' %}" class="absolute inset-0 w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
                 <div class="absolute bottom-0 left-0 p-8">
                     <h3 class="text-2xl font-bold text-white mb-2">Straight Tubes</h3>
@@ -120,7 +120,7 @@
             </a>
             
             <a href="{% url 'shop:product_list_by_category' 'dab-rigs' %}" class="group relative h-96 rounded-2xl overflow-hidden glass">
-                <img src="{% static 'images/dab_rig.png' %}" class="absolute inset-0 w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
+                <img src="{% static 'images/dab_rigs.avif' %}" class="absolute inset-0 w-full h-full object-cover transform transition duration-700 group-hover:scale-110">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
                 <div class="absolute bottom-0 left-0 p-8">
                     <h3 class="text-2xl font-bold text-white mb-2">Dab Rigs & Bubblers</h3>
@@ -131,13 +131,13 @@
     </div>
 </section>
 
-<!-- Trending Section -->
+<!-- Newly Added Products Section -->
 <section class="py-24 bg-brand-muted/30" data-aos="fade-up">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-end mb-12">
             <div>
-                <h2 class="text-3xl font-serif font-bold text-white mb-2">Trending Now</h2>
-                <p class="text-gray-400">The most sought-after pieces this week.</p>
+                <h2 class="text-3xl font-serif font-bold text-white mb-2">Newly Added Products</h2>
+                <p class="text-gray-400">Discover our latest arrivals and newest additions.</p>
             </div>
             <a href="{% url 'shop:product_list' %}" class="text-brand-accent hover:text-white transition-colors flex items-center">
                 View all <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
@@ -146,7 +146,7 @@
 
         <div class="swiper trendingSwiper pb-14 px-2">
             <div class="swiper-wrapper">
-                {% for product in trending_products %}
+                {% for product in new_products %}
                 <div class="swiper-slide h-auto">
                     <div class="glass-card group cursor-pointer flex flex-col h-full">
                         <a href="{% url 'shop:product_detail' product.slug %}" class="flex-grow">
@@ -171,95 +171,9 @@
                     </div>
                 </div>
                 {% empty %}
-                <!-- Mock Content if DB is empty -->
                 <div class="swiper-slide h-auto">
-                    <div class="glass-card group cursor-pointer h-full">
-                        <div class="relative aspect-w-1 aspect-h-1 overflow-hidden">
-                            <img src="{% static 'images/hero3.jpg' %}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
-                        </div>
-                        <div class="p-6"><h3 class="text-lg text-white mb-2">Classic Beaker</h3><span class="text-brand-accent">$45.00</span></div>
-                    </div>
-                </div>
-                <div class="swiper-slide h-auto">
-                    <div class="glass-card group cursor-pointer h-full">
-                        <div class="relative aspect-w-1 aspect-h-1 overflow-hidden">
-                            <img src="{% static 'images/hero2.jpg' %}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
-                        </div>
-                        <div class="p-6"><h3 class="text-lg text-white mb-2">Inline Percolator</h3><span class="text-brand-accent">$38.00</span></div>
-                    </div>
-                </div>
-                <div class="swiper-slide h-auto">
-                    <div class="glass-card group cursor-pointer h-full">
-                        <div class="relative aspect-w-1 aspect-h-1 overflow-hidden">
-                            <img src="{% static 'images/hero1.jpg' %}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
-                        </div>
-                        <div class="p-6"><h3 class="text-lg text-white mb-2">Matrix Bubbler</h3><span class="text-brand-accent">$32.00</span></div>
-                    </div>
-                </div>
-                <div class="swiper-slide h-auto">
-                    <div class="glass-card group cursor-pointer h-full">
-                        <div class="relative aspect-w-1 aspect-h-1 overflow-hidden">
-                            <img src="{% static 'images/cat1.jpg' %}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
-                        </div>
-                        <div class="p-6"><h3 class="text-lg text-white mb-2">Honeycomb Rig</h3><span class="text-brand-accent">$120.00</span></div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            <div class="swiper-pagination"></div>
-            <div class="swiper-button-prev !text-brand-accent after:!text-brand-accent"></div>
-            <div class="swiper-button-next !text-brand-accent after:!text-brand-accent"></div>
-        </div>
-    </div>
-</section>
-
-<!-- Bestsellers Section -->
-<section class="py-24 bg-brand-dark border-t border-white/5" data-aos="fade-up">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-end mb-12">
-            <div>
-                <p class="text-brand-accent text-sm font-semibold tracking-wider uppercase mb-2">Exquisite Choices</p>
-                <h2 class="text-3xl font-serif font-bold text-white">Our Bestsellers</h2>
-                <p class="text-gray-400 mt-1">Acclaimed designs chosen by connoisseurs worldwide.</p>
-            </div>
-            <a href="{% url 'shop:product_list' %}" class="text-brand-accent hover:text-white transition-colors flex items-center">
-                View all <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </a>
-        </div>
-
-        <div class="swiper bestsellersSwiper pb-14 px-2">
-            <div class="swiper-wrapper">
-                {% for product in bestsellers %}
-                <div class="swiper-slide h-auto">
-                    <div class="glass-card group cursor-pointer flex flex-col h-full relative overflow-hidden">
-                        <!-- Premium Bestseller Badge -->
-                        <div class="absolute top-4 left-4 z-10 bg-brand-accent text-brand-dark text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-lg shadow-brand-accent/20">
-                            Bestseller
-                        </div>
-                        
-                        <a href="{% url 'shop:product_detail' product.slug %}" class="flex-grow flex flex-col">
-                            <div class="relative h-72 overflow-hidden bg-brand-muted">
-                                {% if product.image %}
-                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
-                                {% else %}
-                                    <img src="{% static 'images/hero4.jpg' %}" alt="Placeholder" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
-                                {% endif %}
-                                <div class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
-                                    <span class="btn-primary transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">View Masterpiece</span>
-                                </div>
-                            </div>
-                            <div class="p-6 flex-grow flex flex-col justify-between">
-                                <div>
-                                    <span class="text-xs text-gray-500 uppercase tracking-widest">{{ product.category.name }}</span>
-                                    <h3 class="text-xl font-bold text-white mt-1 mb-2">{{ product.name }}</h3>
-                                    <p class="text-gray-400 text-sm font-light line-clamp-2 mb-4">{{ product.description }}</p>
-                                </div>
-                                <div class="flex justify-between items-center pt-4 border-t border-white/5">
-                                    <span class="text-brand-accent font-serif text-lg font-bold">${{ product.price }}</span>
-                                    <span class="text-xs text-gray-400">Available: {{ product.stock }} in stock</span>
-                                </div>
-                            </div>
-                        </a>
+                    <div class="glass-card p-8 flex items-center justify-center h-full">
+                        <p class="text-gray-400">New products coming soon!</p>
                     </div>
                 </div>
                 {% endfor %}
@@ -336,7 +250,7 @@
             </div>
             <div class="glass p-2 rounded-3xl h-full">
                 <div class="w-full h-full min-h-[300px] rounded-2xl overflow-hidden relative">
-                    <img src="{% static 'images/straight_tube.png' %}" class="absolute inset-0 w-full h-full object-cover">
+                    <img src="{% static 'images/straight_tube.avif' %}" class="absolute inset-0 w-full h-full object-cover">
                 </div>
             </div>
         </div>
@@ -360,54 +274,6 @@
                 </p>
                 <a href="{% url 'core:about' %}" class="btn-primary inline-block">Meet the Team</a>
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- Blog Section -->
-<section class="py-24 bg-brand-muted/10 border-t border-white/5" data-aos="fade-up">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-end mb-12">
-            <div>
-                <p class="text-brand-accent text-sm font-semibold tracking-wider uppercase mb-2">Glass Education</p>
-                <h2 class="text-3xl font-serif font-bold text-white">The Journal</h2>
-                <p class="text-gray-400 mt-1">Deep dives into the science, culture, and artistry of functional glass.</p>
-            </div>
-            <a href="{% url 'blog:post_list' %}" class="text-brand-accent hover:text-white transition-colors flex items-center">
-                Read All Articles <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </a>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {% for post in latest_posts %}
-            <div class="glass-card group cursor-pointer flex flex-col h-full overflow-hidden">
-                <a href="{% url 'blog:post_detail' post.slug %}" class="flex-grow flex flex-col">
-                    <div class="relative h-56 overflow-hidden bg-brand-muted">
-                        {% if post.image %}
-                            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
-                        {% else %}
-                            <img src="{% static 'images/hero2.jpg' %}" alt="Blog Image" class="object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110">
-                        {% endif %}
-                    </div>
-                    <div class="p-6 flex-grow flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center gap-2 text-xs text-gray-500 mb-3">
-                                <span>{{ post.publish|date:"M d, Y" }}</span>
-                                <span>•</span>
-                                <span>By {{ post.author.username }}</span>
-                            </div>
-                            <h3 class="text-xl font-bold text-white mb-3 group-hover:text-brand-accent transition-colors">{{ post.title }}</h3>
-                            <p class="text-gray-400 text-sm font-light line-clamp-3 mb-4 leading-relaxed">{{ post.body|striptags }}</p>
-                        </div>
-                        <span class="text-brand-accent text-sm font-medium mt-4 inline-block group-hover:underline">Read Article &rarr;</span>
-                    </div>
-                </a>
-            </div>
-            {% empty %}
-            <div class="text-center py-12 col-span-3">
-                <p class="text-gray-400">No blog posts available.</p>
-            </div>
-            {% endfor %}
         </div>
     </div>
 </section>
@@ -452,75 +318,6 @@
     </div>
 </section>
 
-<!-- Interactive FAQ Section -->
-<section class="py-24 bg-brand-dark border-t border-white/5" data-aos="fade-up">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <p class="text-brand-accent text-sm font-semibold tracking-[0.3em] uppercase mb-3">Common Inquiries</p>
-            <h2 class="text-4xl font-serif font-bold text-white">Frequently Asked Questions</h2>
-            <p class="text-gray-400 mt-2">Everything you need to know about our premium glass pieces.</p>
-        </div>
-
-        <div class="space-y-4">
-            <!-- FAQ Item 1 -->
-            <div class="glass rounded-2xl overflow-hidden border border-white/10 transition-all duration-300">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center text-white hover:text-brand-accent focus:outline-none" onclick="toggleFaq(1)">
-                    <span class="font-semibold text-lg">What makes American Borosilicate glass superior?</span>
-                    <svg id="faq-icon-1" class="w-5 h-5 transform transition-transform duration-300 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div id="faq-content-1" class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0px;">
-                    <p class="px-6 pb-6 text-gray-400 leading-relaxed text-sm">
-                        American borosilicate glass (often referred to as Schott Duran or Pyrex) is highly resistant to thermal shock. This means it won't crack or shatter under extreme temperature changes. Our pieces feature thick walls (5mm to 7mm) and are annealed in computerized kilns to relieve structural stress, ensuring maximum durability and lifetime longevity.
-                    </p>
-                </div>
-            </div>
-
-            <!-- FAQ Item 2 -->
-            <div class="glass rounded-2xl overflow-hidden border border-white/10 transition-all duration-300">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center text-white hover:text-brand-accent focus:outline-none" onclick="toggleFaq(2)">
-                    <span class="font-semibold text-lg">How do I verify the authenticity of my BONGS piece?</span>
-                    <svg id="faq-icon-2" class="w-5 h-5 transform transition-transform duration-300 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div id="faq-content-2" class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0px;">
-                    <p class="px-6 pb-6 text-gray-400 leading-relaxed text-sm">
-                        Every genuine piece hand-blown by our artisans is stamped with a subtle, sandblasted holographic brand seal and comes with a signed Certificate of Authenticity. Each certificate includes a unique registration number which you can link directly to your customer account profile dashboard.
-                    </p>
-                </div>
-            </div>
-
-            <!-- FAQ Item 3 -->
-            <div class="glass rounded-2xl overflow-hidden border border-white/10 transition-all duration-300">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center text-white hover:text-brand-accent focus:outline-none" onclick="toggleFaq(3)">
-                    <span class="font-semibold text-lg">What is your shipping and breakage policy?</span>
-                    <svg id="faq-icon-3" class="w-5 h-5 transform transition-transform duration-300 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div id="faq-content-3" class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0px;">
-                    <p class="px-6 pb-6 text-gray-400 leading-relaxed text-sm">
-                        We package all items in dual-walled boxes wrapped in thick protective layers of custom foam. We offer 100% insured shipping worldwide. In the highly unlikely event that your piece arrives damaged, simply take a photo of the item and the packaging within 24 hours of delivery and send it to our support team; we will ship a replacement immediately at no cost.
-                    </p>
-                </div>
-            </div>
-
-            <!-- FAQ Item 4 -->
-            <div class="glass rounded-2xl overflow-hidden border border-white/10 transition-all duration-300">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center text-white hover:text-brand-accent focus:outline-none" onclick="toggleFaq(4)">
-                    <span class="font-semibold text-lg">Do you offer custom designs or custom colors?</span>
-                    <svg id="faq-icon-4" class="w-5 h-5 transform transition-transform duration-300 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div id="faq-content-4" class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0px;">
-                    <p class="px-6 pb-6 text-gray-400 leading-relaxed text-sm">
-                        Yes! Through our bespoke workshop, you can request custom coloring, unique percolation styles, and personalized sandblasted details. Connect directly with Elias Vance or our studio glassblowers via our contact page to initiate a custom commission.
-                    </p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="text-center mt-12">
-            <a href="{% url 'core:faq' %}" class="btn-outline inline-block">View Full FAQ Directory</a>
-        </div>
-    </div>
-</section>
-
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
@@ -550,20 +347,7 @@
         },
     });
 
-    const bestsellersSwiper = new Swiper('.bestsellersSwiper', {
-        loop: true,
-        autoplay: { delay: 4000, disableOnInteraction: false },
-        slidesPerView: 1,
-        spaceBetween: 24,
-        pagination: { el: '.bestsellersSwiper .swiper-pagination', clickable: true },
-        navigation: { nextEl: '.bestsellersSwiper .swiper-button-next', prevEl: '.bestsellersSwiper .swiper-button-prev' },
-        breakpoints: {
-            768: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-        },
-    });
-
-    function toggleFaq(id) {
+function toggleFaq(id) {
         const content = document.getElementById(`faq-content-${id}`);
         const icon = document.getElementById(`faq-icon-${id}`);
         

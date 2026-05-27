@@ -37,7 +37,11 @@
                                 </div>
                             </td>
                             <td class="p-6 text-center">
-                                <span class="bg-brand-muted px-4 py-2 rounded-lg border border-white/10">{{ item.quantity }}</span>
+                                <form action="{% url 'orders:cart_update' product.id %}" method="post" class="flex items-center justify-center space-x-2">
+                                    {% csrf_token %}
+                                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ product.stock }}" class="w-16 bg-brand-muted text-white text-center border border-white/10 rounded-lg py-1 px-2 focus:outline-none focus:border-brand-accent">
+                                    <button type="submit" class="text-xs text-brand-accent hover:text-white transition-colors uppercase tracking-wider font-semibold">Update</button>
+                                </form>
                             </td>
                             <td class="p-6 text-right font-bold text-brand-accent">
                                 ${{ item.total_price }}

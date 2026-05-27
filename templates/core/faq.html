@@ -28,15 +28,11 @@
             <button onclick="filterFaq('all')" id="tab-all" class="px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-brand-accent text-brand-dark shadow-lg shadow-brand-accent/20">
                 All Inquiries
             </button>
-            <button onclick="filterFaq('craft')" id="tab-craft" class="px-5 py-2.5 rounded-full text-sm font-semibold transition-all border border-white/10 text-gray-300 hover:border-brand-accent/50 hover:text-white">
-                Glass & Craft
+            {% for category in faq_categories %}
+            <button onclick="filterFaq('cat-{{ category.id }}')" id="tab-cat-{{ category.id }}" class="px-5 py-2.5 rounded-full text-sm font-semibold transition-all border border-white/10 text-gray-300 hover:border-brand-accent/50 hover:text-white">
+                {{ category.name }}
             </button>
-            <button onclick="filterFaq('shipping')" id="tab-shipping" class="px-5 py-2.5 rounded-full text-sm font-semibold transition-all border border-white/10 text-gray-300 hover:border-brand-accent/50 hover:text-white">
-                Shipping & Packaging
-            </button>
-            <button onclick="filterFaq('care')" id="tab-care" class="px-5 py-2.5 rounded-full text-sm font-semibold transition-all border border-white/10 text-gray-300 hover:border-brand-accent/50 hover:text-white">
-                Returns & Care
-            </button>
+            {% endfor %}
         </div>
         
         <!-- Search field -->
@@ -48,136 +44,25 @@
 
     <!-- Accordion Items Grid -->
     <div class="grid grid-cols-1 gap-6 max-w-4xl mx-auto">
-
-        <!-- CATEGORY: Glass & Craft -->
-        <div class="faq-item" data-category="craft" data-aos="fade-up">
-            <div class="glass rounded-2xl overflow-hidden border border-white/10 transition-all duration-300">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center text-white hover:text-brand-accent focus:outline-none" onclick="toggleAccordion(1)">
-                    <span class="font-semibold text-lg md:text-xl">What makes American Borosilicate glass superior?</span>
-                    <svg id="faq-icon-1" class="w-5 h-5 transform transition-transform duration-300 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div id="faq-content-1" class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0px;">
-                    <p class="px-6 pb-6 text-gray-400 leading-relaxed text-sm md:text-base">
-                        American borosilicate glass (often referred to as Schott Duran or Pyrex) is highly resistant to thermal shock. This means it won't crack or shatter under extreme temperature changes. Our pieces feature thick walls (5mm to 7mm) and are annealed in computerized kilns to relieve structural stress, ensuring maximum durability and lifetime longevity.
-                    </p>
+        {% for category in faq_categories %}
+            {% for faq in category.faqs.all %}
+            <div class="faq-item" data-category="cat-{{ category.id }}" data-aos="fade-up">
+                <div class="glass rounded-2xl overflow-hidden border border-white/10 transition-all duration-300">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center text-white hover:text-brand-accent focus:outline-none" onclick="toggleAccordion('{{ faq.id }}')">
+                        <span class="font-semibold text-lg md:text-xl">{{ faq.question }}</span>
+                        <svg id="faq-icon-{{ faq.id }}" class="w-5 h-5 transform transition-transform duration-300 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="faq-content-{{ faq.id }}" class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0px;">
+                        <p class="px-6 pb-6 text-gray-400 leading-relaxed text-sm md:text-base">
+                            {{ faq.answer|linebreaksbr }}
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="faq-item" data-category="craft" data-aos="fade-up">
-            <div class="glass rounded-2xl overflow-hidden border border-white/10 transition-all duration-300">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center text-white hover:text-brand-accent focus:outline-none" onclick="toggleAccordion(2)">
-                    <span class="font-semibold text-lg md:text-xl">What joint sizes and standards do your pieces use?</span>
-                    <svg id="faq-icon-2" class="w-5 h-5 transform transition-transform duration-300 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div id="faq-content-2" class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0px;">
-                    <p class="px-6 pb-6 text-gray-400 leading-relaxed text-sm md:text-base">
-                        Most of our standard beaker bongs and straight tubes come with a 14mm female joint and include a 14mm matching bowl. Some larger pieces and custom dab rigs may feature 18mm or 10mm joints respectively. Please check the product description for specific details on each piece.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-item" data-category="craft" data-aos="fade-up">
-            <div class="glass rounded-2xl overflow-hidden border border-white/10 transition-all duration-300">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center text-white hover:text-brand-accent focus:outline-none" onclick="toggleAccordion(3)">
-                    <span class="font-semibold text-lg md:text-xl">How does water percolation and filtration affect my draw?</span>
-                    <svg id="faq-icon-3" class="w-5 h-5 transform transition-transform duration-300 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div id="faq-content-3" class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0px;">
-                    <p class="px-6 pb-6 text-gray-400 leading-relaxed text-sm md:text-base">
-                        Our inline, matrix, and honeycomb percolators break the smoke down into thousands of tiny bubbles. This drastically increases the surface area of the smoke coming into contact with the water, which cools the vapor and filters out water-soluble particulates. The result is a remarkably clean, smooth draw that preserves the delicate flavors of your terpene profile.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- CATEGORY: Shipping & Packaging -->
-        <div class="faq-item" data-category="shipping" data-aos="fade-up">
-            <div class="glass rounded-2xl overflow-hidden border border-white/10 transition-all duration-300">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center text-white hover:text-brand-accent focus:outline-none" onclick="toggleAccordion(4)">
-                    <span class="font-semibold text-lg md:text-xl">Do you offer international shipping?</span>
-                    <svg id="faq-icon-4" class="w-5 h-5 transform transition-transform duration-300 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div id="faq-content-4" class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0px;">
-                    <p class="px-6 pb-6 text-gray-400 leading-relaxed text-sm md:text-base">
-                        Yes, we ship to most countries worldwide. International shipping rates and delivery times are calculated at checkout based on your location. Please note that international orders may be subject to customs duties and taxes, which are the responsibility of the recipient.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-item" data-category="shipping" data-aos="fade-up">
-            <div class="glass rounded-2xl overflow-hidden border border-white/10 transition-all duration-300">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center text-white hover:text-brand-accent focus:outline-none" onclick="toggleAccordion(5)">
-                    <span class="font-semibold text-lg md:text-xl">What if my glass piece arrives broken?</span>
-                    <svg id="faq-icon-5" class="w-5 h-5 transform transition-transform duration-300 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div id="faq-content-5" class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0px;">
-                    <p class="px-6 pb-6 text-gray-400 leading-relaxed text-sm md:text-base">
-                        We package all items in dual-walled boxes wrapped in thick protective layers of custom foam. We offer 100% insured shipping worldwide. In the highly unlikely event that your piece arrives damaged, simply take a photo of the item and the packaging within 24 hours of delivery and send it to our support team; we will ship a replacement immediately at no cost.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-item" data-category="shipping" data-aos="fade-up">
-            <div class="glass rounded-2xl overflow-hidden border border-white/10 transition-all duration-300">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center text-white hover:text-brand-accent focus:outline-none" onclick="toggleAccordion(6)">
-                    <span class="font-semibold text-lg md:text-xl">Is the outer shipping package discrete?</span>
-                    <svg id="faq-icon-6" class="w-5 h-5 transform transition-transform duration-300 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div id="faq-content-6" class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0px;">
-                    <p class="px-6 pb-6 text-gray-400 leading-relaxed text-sm md:text-base">
-                        Absolutely. All order boxes are shipped in plain, unmarked cardboard packaging with a discrete return address showing "Bongs Studio" or similar, ensuring absolute privacy for your delivery.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- CATEGORY: Returns & Care -->
-        <div class="faq-item" data-category="care" data-aos="fade-up">
-            <div class="glass rounded-2xl overflow-hidden border border-white/10 transition-all duration-300">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center text-white hover:text-brand-accent focus:outline-none" onclick="toggleAccordion(7)">
-                    <span class="font-semibold text-lg md:text-xl">What is your return policy?</span>
-                    <svg id="faq-icon-7" class="w-5 h-5 transform transition-transform duration-300 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div id="faq-content-7" class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0px;">
-                    <p class="px-6 pb-6 text-gray-400 leading-relaxed text-sm md:text-base">
-                        We accept returns of unused, undamaged items in their original packaging within 30 days of delivery. Due to the delicate nature of our products, a restocking fee may apply if items are not packed securely for the return journey. Please contact our concierge team to initiate a return.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-item" data-category="care" data-aos="fade-up">
-            <div class="glass rounded-2xl overflow-hidden border border-white/10 transition-all duration-300">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center text-white hover:text-brand-accent focus:outline-none" onclick="toggleAccordion(8)">
-                    <span class="font-semibold text-lg md:text-xl">How do I properly clean and care for my glass?</span>
-                    <svg id="faq-icon-8" class="w-5 h-5 transform transition-transform duration-300 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div id="faq-content-8" class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0px;">
-                    <p class="px-6 pb-6 text-gray-400 leading-relaxed text-sm md:text-base">
-                        Pour a generous amount of high-percentage isopropyl alcohol (91% or higher) and a tablespoon of coarse salt into the bong. Cover all openings, then shake vigorously for 60 seconds. Rinse thoroughly with warm water. Weekly cleaning prevents stubborn buildup. Avoid dishwashers or boil tests, as temperature swings can stress joints.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-item" data-category="care" data-aos="fade-up">
-            <div class="glass rounded-2xl overflow-hidden border border-white/10 transition-all duration-300">
-                <button class="w-full px-6 py-5 text-left flex justify-between items-center text-white hover:text-brand-accent focus:outline-none" onclick="toggleAccordion(9)">
-                    <span class="font-semibold text-lg md:text-xl">Do you offer a warranty on glass breakage?</span>
-                    <svg id="faq-icon-9" class="w-5 h-5 transform transition-transform duration-300 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div id="faq-content-9" class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out" style="max-height: 0px;">
-                    <p class="px-6 pb-6 text-gray-400 leading-relaxed text-sm md:text-base">
-                        While borosilicate is tough, glass remains breakable. We do not cover accidental drops or table collisions. However, we offer an exclusive "Concierge Breakage Discount" of 30% off replacement glass for any registered piece. Connect with support to redeem this discount.
-                    </p>
-                </div>
-            </div>
-        </div>
-
+            {% endfor %}
+        {% empty %}
+            <p class="text-gray-400 text-center w-full">No FAQs available yet.</p>
+        {% endfor %}
     </div>
 </div>
 
@@ -198,10 +83,10 @@
 
     function filterFaq(category) {
         // Toggle Active Tabs Classes
-        const tabs = ['all', 'craft', 'shipping', 'care'];
-        tabs.forEach(t => {
-            const el = document.getElementById(`tab-${t}`);
-            if (t === category) {
+        const tabs = document.querySelectorAll('[id^="tab-"]');
+        tabs.forEach(el => {
+            const elCategory = el.id.replace('tab-', '');
+            if (elCategory === category) {
                 el.className = "px-5 py-2.5 rounded-full text-sm font-semibold transition-all bg-brand-accent text-brand-dark shadow-lg shadow-brand-accent/20";
             } else {
                 el.className = "px-5 py-2.5 rounded-full text-sm font-semibold transition-all border border-white/10 text-gray-300 hover:border-brand-accent/50 hover:text-white";
