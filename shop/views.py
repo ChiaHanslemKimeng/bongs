@@ -16,8 +16,19 @@ def product_list(request, category_slug=None):
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         descendant_categories = get_category_descendants(category)
-        products = products.filter(categories__in=descendant_categories).distinct()
-        
+
+        # Smart $1k+ logic: if this category is a price-tier category,
+        # also show products from sibling/parent scope priced >= 1000
+        name_lower = category.name.lower()
+        if '1k' in name_lower or '$1k' in name_lower:
+            if category.parent:
+                parent_descendants = get_category_descendants(category.parent)
+                products = products.filter(categories__in=parent_descendants, price__gte=1000).distinct()
+            else:
+                products = products.filter(price__gte=1000).distinct()
+        else:
+            products = products.filter(categories__in=descendant_categories).distinct()
+
     search_query = request.GET.get('search')
     if search_query:
         products = products.filter(name__icontains=search_query)
@@ -88,7 +99,16 @@ def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug, available=True)
     related_products = Product.objects.filter(categories__in=product.categories.all(), available=True).exclude(id=product.id).distinct()[:4]
     
+    unique_categories = []
+    seen_names = set()
+    for cat in product.categories.all():
+        if cat.name not in seen_names:
+            unique_categories.append(cat)
+            seen_names.add(cat.name)
+            
     return render(request, 'shop/product_detail.html', {
         'product': product,
-        'related_products': related_products
+        'related_products': related_products,
+        'unique_categories': unique_categories
     })
+

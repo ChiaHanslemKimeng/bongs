@@ -8,7 +8,7 @@ from shop.models import Product
 from .models import Review, FAQCategory
 
 def home(request):
-    new_products = Product.objects.filter(available=True).order_by('-created')[:10]
+    new_products = Product.objects.filter(available=True).order_by('-id')[:10]
     latest_reviews = Review.objects.all()[:10]
     
     return render(request, 'core/home.html', {

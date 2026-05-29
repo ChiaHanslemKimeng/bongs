@@ -30,9 +30,19 @@
         
         <!-- Product Images -->
         <div>
-            <div class="glass-card overflow-hidden mb-4 relative aspect-w-4 aspect-h-5">
+            <div class="glass-card overflow-hidden mb-4 relative aspect-w-4 aspect-h-5 group">
                 {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-cover w-full h-full cursor-zoom-in" id="mainImage">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-cover w-full h-full cursor-zoom-in transition-opacity duration-300" id="mainImage">
+                    
+                    {% if product.images.all %}
+                    <!-- Left/Right Navigation Arrows -->
+                    <button type="button" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/60 hover:bg-brand-accent border border-white/10 text-white flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 z-10" onclick="prevImage()">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/60 hover:bg-brand-accent border border-white/10 text-white flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 z-10" onclick="nextImage()">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                    {% endif %}
                 {% else %}
                     <div class="w-full h-full bg-brand-muted flex items-center justify-center">
                         <span class="text-gray-600">No Image</span>
@@ -41,13 +51,13 @@
             </div>
             
             {% if product.images.all %}
-            <div class="grid grid-cols-4 gap-4">
-                <div class="glass-card cursor-pointer border border-brand-accent">
-                    <img src="{{ product.image.url }}" class="object-cover w-full h-24" onclick="document.getElementById('mainImage').src=this.src">
+            <div class="flex flex-wrap gap-4 justify-center" id="thumbnailContainer">
+                <div class="w-20 h-20 rounded-lg overflow-hidden cursor-pointer border-2 border-[#10B981] gallery-thumb transition-colors" data-idx="0" onclick="changeImage(0)">
+                    <img src="{{ product.image.url }}" class="object-cover w-full h-full">
                 </div>
                 {% for img in product.images.all %}
-                <div class="glass-card cursor-pointer border border-transparent hover:border-brand-accent/50">
-                    <img src="{{ img.image.url }}" class="object-cover w-full h-24" onclick="document.getElementById('mainImage').src=this.src">
+                <div class="w-20 h-20 rounded-lg overflow-hidden cursor-pointer border-2 border-transparent hover:border-gray-500 gallery-thumb transition-colors" data-idx="{{ forloop.counter }}" onclick="changeImage({{ forloop.counter }})">
+                    <img src="{{ img.image.url }}" class="object-cover w-full h-full">
                 </div>
                 {% endfor %}
             </div>
@@ -81,24 +91,21 @@
 
             <!-- Details Section -->
             <div class="mb-8">
-                <div class="flex justify-between items-center mb-4 cursor-pointer">
+                <div class="flex justify-between items-center mb-4 cursor-pointer" id="details-toggle">
                     <h2 class="text-xl font-bold text-white">Details</h2>
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg id="details-chevron" class="w-6 h-6 text-white transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 
-                <div class="space-y-4">
+                <div class="space-y-4" id="details-content">
                     <!-- Category -->
                     <div class="flex justify-between items-center">
                         <div class="flex items-center text-gray-300 text-sm">
                             <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
                             Category:
                         </div>
-                        <div class="flex flex-wrap gap-2">
-                            {% for cat in product.categories.all %}
-                                {% if cat.parent %}
-                                    <span class="px-3 py-1 rounded-full border border-gray-700 text-xs text-gray-300">{{ cat.parent.name }}</span>
-                                {% endif %}
-                                <span class="px-3 py-1 rounded-full border border-brand-accent/40 text-xs text-brand-accent">{{ cat.name }}</span>
+                        <div class="flex flex-wrap gap-2 justify-end">
+                            {% for cat in unique_categories %}
+                                <span class="px-3 py-1 rounded-full border border-gray-700 text-xs text-gray-300">{{ cat.name }}</span>
                             {% empty %}
                                 <span class="text-xs text-gray-500">Uncategorised</span>
                             {% endfor %}
@@ -163,6 +170,17 @@
                     </div>
                     {% endif %}
                     
+                    <!-- Joint Size -->
+                    {% if product.joint %}
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center text-gray-300 text-sm">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                            Joint Size:
+                        </div>
+                        <span class="px-3 py-1 rounded-full border border-gray-700 text-xs text-gray-300">{{ product.joint }}</span>
+                    </div>
+                    {% endif %}
+                    
                     <!-- Year Made -->
                     {% if product.year_made %}
                     <div class="flex justify-between items-center">
@@ -217,4 +235,58 @@
     {% endif %}
 
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// ── Gallery ────────────────────────────────────────────────────────────────
+(function() {
+    // Build image list from thumbnails
+    const thumbs = document.querySelectorAll('.gallery-thumb');
+    if (!thumbs.length) return;
+
+    const images = Array.from(thumbs).map(t => t.querySelector('img').src);
+    let current = 0;
+
+    function setActive(idx) {
+        current = (idx + images.length) % images.length;
+        const mainImage = document.getElementById('mainImage');
+        if (mainImage) {
+            mainImage.style.opacity = '0';
+            setTimeout(() => {
+                mainImage.src = images[current];
+                mainImage.style.opacity = '1';
+            }, 150);
+        }
+        thumbs.forEach((t, i) => {
+            t.classList.toggle('border-[#10B981]', i === current);
+            t.classList.toggle('border-transparent', i !== current);
+        });
+    }
+
+    // Expose to inline onclick handlers
+    window.changeImage = setActive;
+    window.prevImage   = () => setActive(current - 1);
+    window.nextImage   = () => setActive(current + 1);
+
+    // Keyboard support
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft')  window.prevImage();
+        if (e.key === 'ArrowRight') window.nextImage();
+    });
+})();
+
+// ── Details dropdown ───────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+    const toggle  = document.getElementById('details-toggle');
+    const content = document.getElementById('details-content');
+    const chevron = document.getElementById('details-chevron');
+    if (toggle && content && chevron) {
+        toggle.addEventListener('click', function() {
+            content.classList.toggle('hidden');
+            chevron.classList.toggle('-rotate-90');
+        });
+    }
+});
+</script>
 {% endblock %}
