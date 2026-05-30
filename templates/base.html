@@ -101,9 +101,9 @@
             <nav class="hidden md:flex justify-center items-center space-x-10 h-12">
                 {% for top_cat in shop_top_categories %}
                     <div class="group h-full flex items-center">
-                        <a href="{% url 'shop:product_list_by_category' top_cat.slug %}" class="text-white hover:text-brand-accent font-semibold text-sm transition-colors {% if category.get_root.slug == top_cat.slug %}text-brand-accent{% endif %}">
+                        <button type="button" class="text-white hover:text-brand-accent font-semibold text-sm transition-colors {% if category.get_root.slug == top_cat.slug %}text-brand-accent{% endif %} cursor-default">
                             {{ top_cat.name }}
-                        </a>
+                        </button>
                         
                         <!-- Mega Menu Dropdown for this specific category -->
                         {% if top_cat.children.exists %}
@@ -157,11 +157,13 @@
                 {% for top_cat in shop_top_categories %}
                     <div class="mb-1">
                         <div class="flex items-center justify-between">
-                            <a href="{% url 'shop:product_list_by_category' top_cat.slug %}" class="text-white hover:text-brand-accent block px-3 py-2 rounded-md font-semibold text-sm flex-grow">{{ top_cat.name }}</a>
                             {% if top_cat.children.exists %}
-                            <button onclick="toggleCatDropdown('sidebar-cat-{{ top_cat.id }}')" class="text-gray-400 hover:text-brand-accent p-2 focus:outline-none transition-colors">
-                                <svg id="sidebar-cat-icon-{{ top_cat.id }}" class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <button onclick="toggleCatDropdown('sidebar-cat-{{ top_cat.id }}')" class="flex items-center justify-between w-full text-white hover:text-brand-accent px-3 py-2 rounded-md font-semibold text-sm focus:outline-none transition-colors text-left">
+                                <span>{{ top_cat.name }}</span>
+                                <svg id="sidebar-cat-icon-{{ top_cat.id }}" class="w-4 h-4 transform transition-transform duration-300 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </button>
+                            {% else %}
+                            <a href="{% url 'shop:product_list_by_category' top_cat.slug %}" class="text-white hover:text-brand-accent block px-3 py-2 rounded-md font-semibold text-sm flex-grow">{{ top_cat.name }}</a>
                             {% endif %}
                         </div>
                         {% if top_cat.children.exists %}
@@ -201,7 +203,7 @@
     </div>
 
     <!-- Main Content -->
-    <main class="flex-grow pt-32">
+    <main class="flex-grow pt-24 lg:pt-32">
         {% if messages %}
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
                 {% for message in messages %}

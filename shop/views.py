@@ -98,17 +98,21 @@ def product_list(request, category_slug=None):
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug, available=True)
     related_products = Product.objects.filter(categories__in=product.categories.all(), available=True).exclude(id=product.id).distinct()[:4]
-    
-    unique_categories = []
+
+    all_cats = set(product.categories.all())
+
+    # Show only the most specific (leaf) categories —
+    # a category is a leaf if none of its children are also in the product's category set.
+    leaf_categories = []
     seen_names = set()
-    for cat in product.categories.all():
-        if cat.name not in seen_names:
-            unique_categories.append(cat)
+    for cat in sorted(all_cats, key=lambda c: c.name):
+        has_child_in_set = any(child in all_cats for child in cat.children.all())
+        if not has_child_in_set and cat.name not in seen_names:
+            leaf_categories.append(cat)
             seen_names.add(cat.name)
-            
+
     return render(request, 'shop/product_detail.html', {
         'product': product,
         'related_products': related_products,
-        'unique_categories': unique_categories
+        'unique_categories': leaf_categories
     })
-
